@@ -241,18 +241,29 @@ router.post(
 
 router.get('/getData',async(req,res)=>{
     try {
-
-        let getData = await formSchemaModel.find();
-        if(getData){
-            res.status(200).json({ message: "fetch data Successfully", success : true, data: getData });
+        const { id } = req.query;
+        if(id){
+          const getData = await formSchemaModel.find({ _id: id });
+          console.log(getData);
+          if (getData && getData.length > 0) {
+              return res.status(200).json({ message: "Data fetched successfully", success: true, data: getData });
+          } else {
+              return res.status(404).json({ message: "Data not found", data: null, success: false });
+          }
         }else{
-            res.status(400).json({ message: "Data not Found", data: '' , success : false});
-        }
+          let getData = await formSchemaModel.find();
+          if(getData){
+              res.status(200).json({ message: "fetch data Successfully", success : true, data: getData });
+          }else{
+              res.status(400).json({ message: "Data not Found", data: '' , success : false});
+          }
+        } 
         
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Internal Server Error", data: "" , success : false });
     }
 })
+
 
 module.exports = router;
