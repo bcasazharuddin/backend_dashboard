@@ -5,9 +5,9 @@ contact_us.contactSave = async (req,res)=>{
     try {
         
         const {fname, lname,email,phone,message } = req.body;
-        if(!email){
-            res.status(400).json({ message: "Email is Required", data: "" , success : false , status : 400 });
-        }
+        // if(!email){
+        //     res.status(400).json({ message: "Email is Required", data: "" , success : false , status : 400 });
+        // }
         const contactObj = new contactSchema({
             fname : fname,
             lname : lname,
