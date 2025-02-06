@@ -3,6 +3,7 @@ const mongoose  = require('mongoose')
 const cors = require('cors');
 const formRouter = require('./routes/formRoutes')
 const operatorRouter = require('./routes/operatorRoutes')
+const contactRouter = require('./routes/contactUsRoutes')
 const app = express()
 app.use(cors())
 app.use(express.json());
@@ -21,6 +22,7 @@ mongoose.connect(MONGO_URL,{
 
 app.use('/form',formRouter);
 app.use('/Operator',operatorRouter);
+app.use('/contact',contactRouter)
 app.listen(3000,()=>{
     console.log("Server is started on Port 3000");
 })
