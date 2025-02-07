@@ -1,156 +1,159 @@
 const mongoose = require('mongoose');
 
+const fareSchema = new mongoose.Schema({
+    availability: { type: String, default: null },
+    flightPrice: { type: String, default: null },
+    flightsPrice3rd4thPax: { type: String, default: null },
+    gradeCode: { type: String, default: null },
+    gradeName: { type: String, default: null },
+    price: { type: String, default: null },
+    price2ndPax: { type: String, default: null },
+    price3rd4thPax: { type: String, default: null },
+    priceSingle : {type: String, default: null},
+}
+);
+
+const fareSetSchema = new mongoose.Schema({
+    fare_set_name: { type: String, default: null },
+    airport_code: { type: String, default: null },
+    deal_code: { type: String, default: null },
+    fares: [fareSchema]  
+}
+);
+
+
+const itinerarySchema = new mongoose.Schema(
+    {
+        category: { type: String, default: null },
+        port: { type: String, default: null },
+        check_in_date: { type: String, default: null },
+        check_out_date: { type: String, default: null },
+        description : { type : String , default : null},
+    }
+);
 const  formScehma = new mongoose.Schema({
     name : {
-        type : String
+        type : String,
+        default : null
     },
     reference : {
-         type :  String
+         type :  String,
+         default : null
     },
     operator : {
-        type :  String
+        type :  String,
+        default : null
     },
     ship : {
-        type :  String
+        type :  String,
+        default : null
     },
     region : {
-        type :  String
+        type :  String,
+        default : null
     },
     general_type : {
-        type :  String
+        type :  String,
+        default : null
     },
     general_Start : {
-        type :  String
+        type :  String,
+        default : Date.now
     },
     general_end : {
-        type :  String
+        type :  String,
+        default : Date.now
     },
     general_categories : {
-         type :  String
+         type :  String,
+         default : null
     },
     general_range : {
-        type :  String
+        type :  String,
+        default : null
     },
     cruise_image : {
-        type :  String
+        type :  String,
+        default : null
     },
     sales_banner_image : {
-        type : String
+        type : String,
+        default : null
     },
     cruise_banner_image : {
-        type :  String
+        type :  String,
+        default : null
     },
     mobile_cruise_banner_image : {
-        type :  String
+        type :  String,
+        default : null
     },
     summary : {
-        type :  String
+        type :  String,
+        default : null
     },
     sales_message : {
-        type : String
+        type : String,
+        default : null
     },
     text_banner : {
-        type : String
+        type : String,
+        default : null
     },
     overview : {
-        type : String
+        type : String,
+        default : null
     },
     whats_included : {
-        type : String
+        type : String,
+        default : null
     },
     extras : {
-        type : String
+        type : String,
+        default : null
     },
     package_cruise_value1: {
-        type : String
+        type : String,
+        default : null
     },
     package_cruise_value2: {
-        type : String
+        type : String,
+        default : null
     },
     package_cruise_value3: {
-        type : String
+        type : String,
+        default : null
     },
     package_cruise_value4: {
-        type : String
+        type : String,
+        default : null
     },
     package_cruise_value5: {
-        type : String
+        type : String,
+        default : null
     },
     package_cruise_value6: {
-        type : String
+        type : String,
+        default : null
     },
-    fare_set_name : {
-        type : String
-    },
-    airport_code : {
-        type : String
-    },
-    deal_code : {
-        type : String
-    },
-    package_cruise_availability : {
-        type : String
-    },
-    grade_code : {
-        type : String
-    },
-    grade_name : {
-        type : String
-    },
-    package_cruise_price : {
-        type : String
-    },
-    package_price2ndPax : {
-        type : String
-    },
-    package_price3rd4thPax : {
-        type : String
-    },
-    package_priceSingle : {
-        type : String
-    },
-    package_flightPrice : {
-        type : String
-    },
-    package_flightsPrice3rd4thPax : {
-        type : String
-    },
+    fare_sets: [fareSetSchema],
     adjustment_type : {
-        type : String
+        type : String,
+        default : null
     },
     adjustment_amount : {
-        type : String 
+        type : String,
+        default : null 
     },
     restrict_start_date : {
-        type : String 
+        type : String ,
+        default : Date.now
     },
     restrict_end_date : {
-        type : String 
+        type : String,
+        default : Date.now 
     },
-    restrict_end_date : {
-        type : String 
-    },
-    itinary_type : {
-        type : String 
-    },
-    curise_port : {
-        type : String 
-    },
-    curise_check_in_port : {
-        type : String
-    },
-    curise_check_out_port : {
-        type : String
-    },
-    curise_description : {
-        type : String
-    },
-    miscellaneous_item_name : {
-        type : String
-    },
-    miscellaneous_description : {
-        type : String
-    },
+    itinerary : [itinerarySchema],
     options_name : {
         type : String
     },

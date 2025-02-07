@@ -46,7 +46,7 @@ router.post(
   ]),
   async (req, res) => {
     try {
-      const {
+      let {
         name,
         reference,
         operator,
@@ -69,92 +69,53 @@ router.post(
         package_cruise_value4,
         package_cruise_value5,
         package_cruise_value6,
-        fare_set_name,
-        airport_code,
-        deal_code,
-        package_cruise_availability,
-        grade_code,
-        grade_name,
-        package_cruise_price,
-        package_price2ndPax,
-        package_price3rd4thPax,
-        package_priceSingle,
-        package_flightPrice,
-        package_flightsPrice3rd4thPax,
+        fare_sets,
+        itinerary,
         adjustment_type,
         adjustment_amount,
         restrict_start_date,
         restrict_end_date,
-        itinary_type,
-        curise_port,
-        curise_check_in_port,
-        curise_check_out_port,
-        curise_description,
-        miscellaneous_item_name,
-        miscellaneous_description,
         options_name,
         options_amount,
-        options_select,
+        options_select
       } = req.body;
-
-    //   if (
-    //     !name ||
-    //     !reference ||
-    //     !operator ||
-    //     !ship ||
-    //     !region ||
-    //     !general_type ||
-    //     !general_Start ||
-    //     !general_end ||
-    //     !general_categories ||
-    //     !general_range ||
-    //     !summary ||
-    //     !sales_message ||
-    //     !text_banner ||
-    //     !overview ||
-    //     !whats_included ||
-    //     !extras ||
-    //     !package_cruise_value1 ||
-    //     !package_cruise_value2 ||
-    //     !package_cruise_value3 ||
-    //     !package_cruise_value4 ||
-    //     !package_cruise_value5 ||
-    //     !package_cruise_value6 ||
-    //     !fare_set_name ||
-    //     !airport_code ||
-    //     !deal_code ||
-    //     !package_cruise_availability ||
-    //     !grade_code ||
-    //     !grade_name ||
-    //     !package_cruise_price ||
-    //     !package_price2ndPax ||
-    //     !package_price3rd4thPax ||
-    //     !package_priceSingle ||
-    //     !package_flightPrice ||
-    //     !package_flightsPrice3rd4thPax ||
-    //     !adjustment_type ||
-    //     !adjustment_amount ||
-    //     !restrict_start_date ||
-    //     !restrict_end_date ||
-    //     !itinary_type ||
-    //     !curise_port ||
-    //     !curise_check_in_port ||
-    //     !curise_check_out_port ||
-    //     !curise_description ||
-    //     !miscellaneous_item_name ||
-    //     !miscellaneous_description ||
-    //     !options_name ||
-    //     !options_amount ||
-    //     !options_select
-    //   ) {
-    //     res.status(400).json({ message: "Missing data", data: "" });
-    //   }
-
-    //   if (!req.files) {
-    //     return res.status(400).json({ message: "No files uploaded", data: "" });
-    //   }
-
-    //   console.log("--files----",req.files["cruise_image"]);
+      // console.log("--fare_sets first-- ",fare_sets[0].fares);
+      if(fare_sets){
+        fare_sets = JSON.parse(fare_sets)
+      }else{
+        fare_sets = []
+      }
+      // console.log("--fare_sets-- ",fare_sets[0].fares);
+      // if(fare_sets && Array.isArray(fare_sets)){
+      //   const fareSets = fare_sets.map(fareSet => {
+      //     return {
+      //       fare_set_name: fareSet.fare_set_name,
+      //       airport_code: fareSet.airport_code,
+      //       deal_code: fareSet.deal_code,
+      //       fares: fareSet.fares.map(fare => ({
+      //         package_cruise_availability: fare.package_cruise_availability,
+      //         grade_code: fare.grade_code,
+      //         grade_name: fare.grade_name,
+      //         package_cruise_price: fare.package_cruise_price,
+      //         package_price2ndPax: fare.package_price2ndPax,
+      //         package_price3rd4thPax: fare.package_price3rd4thPax,
+      //         package_priceSingle: fare.package_priceSingle,
+      //         package_flightPrice: fare.package_flightPrice,
+      //         package_flightsPrice3rd4thPax: fare.package_flightsPrice3rd4thPax,
+      //       }))
+      //     }}
+      //   );
+      // }else{
+      //   fare_sets = [];
+      // }
+      console.log("--- itinerary---",itinerary);
+      if(itinerary){
+        itinerary = JSON.parse(itinerary)
+      }else{
+        itinerary = []
+      }
+      console.log("--- itinerary- last--",itinerary);
+       // Constructing fareSets array
       const cruiseImageBase64 = convertFileToBase64(
         req.files["cruise_image"]?.[0]
       );
@@ -195,35 +156,20 @@ router.post(
         package_cruise_value4: package_cruise_value4,
         package_cruise_value5: package_cruise_value5,
         package_cruise_value6: package_cruise_value6,
-        fare_set_name: fare_set_name,
-        airport_code: airport_code,
-        deal_code: deal_code,
-        package_cruise_availability: package_cruise_availability,
-        grade_code: grade_code,
-        grade_name: grade_name,
-        package_cruise_price: package_cruise_price,
-        package_price2ndPax: package_price2ndPax,
-        package_price3rd4thPax: package_price3rd4thPax,
-        package_priceSingle: package_priceSingle,
-        package_flightPrice: package_flightPrice,
-        package_flightsPrice3rd4thPax: package_flightsPrice3rd4thPax,
-        adjustment_type: adjustment_type,
-        adjustment_amount: adjustment_amount,
-        restrict_start_date: restrict_start_date,
-        restrict_end_date: restrict_end_date,
-        itinary_type: itinary_type,
-        curise_port: curise_port,
-        curise_check_in_port: curise_check_in_port,
-        curise_check_out_port: curise_check_out_port,
-        curise_description: curise_description,
-        miscellaneous_item_name: miscellaneous_item_name,
-        miscellaneous_description: miscellaneous_description,
-        options_name: options_name,
-        options_amount: options_amount,
-        options_select: options_select,
+        fare_sets: fare_sets,
+        adjustment_type : adjustment_type,
+        adjustment_amount : adjustment_amount,
+        restrict_start_date :restrict_start_date,
+        restrict_end_date : restrict_end_date,
+        itinerary : itinerary,
+        options_name : options_name,
+        options_amount : options_amount,
+        options_select : options_select,
       });
-
+   
+      console.log("-- formData---",formData);
       const formResult = await formData.save();
+      console.log("---formResult--- ",formResult);
       if (formResult) {
         return res
           .status(200)
