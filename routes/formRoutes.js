@@ -43,6 +43,7 @@ router.post(
     { name: "sales_banner_image", maxCount: 1 },
     { name: "cruise_banner_image", maxCount: 1 },
     { name: "mobile_cruise_banner_image", maxCount: 1 },
+    { name: "tour_list[]"} 
   ]),
   async (req, res) => {
     try {
@@ -77,7 +78,9 @@ router.post(
         restrict_end_date,
         options_name,
         options_amount,
-        options_select
+        options_select,
+        tour_title,
+        tour_list
       } = req.body;
       // console.log("--fare_sets first-- ",fare_sets[0].fares);
       if(fare_sets){
@@ -85,6 +88,7 @@ router.post(
       }else{
         fare_sets = []
       }
+
       // console.log("--fare_sets-- ",fare_sets[0].fares);
       // if(fare_sets && Array.isArray(fare_sets)){
       //   const fareSets = fare_sets.map(fareSet => {
@@ -108,13 +112,12 @@ router.post(
       // }else{
       //   fare_sets = [];
       // }
-      console.log("--- itinerary---",itinerary);
+      // console.log("--- itinerary---",itinerary);
       if(itinerary){
         itinerary = JSON.parse(itinerary)
       }else{
         itinerary = []
       }
-      console.log("--- itinerary- last--",itinerary);
        // Constructing fareSets array
       const cruiseImageBase64 = convertFileToBase64(
         req.files["cruise_image"]?.[0]
@@ -129,6 +132,21 @@ router.post(
         req.files["mobile_cruise_banner_image"]?.[0]
       );
 
+      if(tour_list){
+       tour_list = JSON.parse(tour_list)
+       const tourListWithImages = tour_list.map((tourItem, index) => {
+        return {
+          name: tourItem.name,
+          icon: req.files['tour_list[]']?.[index]
+            ? convertFileToBase64(req.files['tour_list[]']?.[index])
+            : null,
+            
+        };
+      });
+      tour_list = tourListWithImages;
+      }else{
+        tour_list = []
+      }
       const formData = new formSchemaModel({
         name: name,
         reference: reference,
@@ -165,6 +183,8 @@ router.post(
         options_name : options_name,
         options_amount : options_amount,
         options_select : options_select,
+        tour_title : tour_title,
+        tour : tour_list
       });
    
       console.log("-- formData---",formData);

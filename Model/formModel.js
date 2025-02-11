@@ -1,5 +1,10 @@
 const mongoose = require('mongoose');
 
+const tourSchema = new mongoose.Schema({
+    name: { type: String, default: null },
+    icon: { type: String, default: null },
+})
+
 const fareSchema = new mongoose.Schema({
     availability: { type: String, default: null },
     flightPrice: { type: String, default: null },
@@ -155,14 +160,22 @@ const  formScehma = new mongoose.Schema({
     },
     itinerary : [itinerarySchema],
     options_name : {
-        type : String
+        type : String,
+        default : null
     },
     options_amount:{
-        type : String
+        type : String,
+        default : null
     },
     options_select :{
-        type : String
-    }
+        type : String,
+        default : null
+    },
+    tour_title : {
+        type : String,
+        default : null
+    },
+    tour : [tourSchema],
 })
 
 
