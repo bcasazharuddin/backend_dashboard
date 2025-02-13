@@ -80,9 +80,11 @@ router.post(
         options_amount,
         options_select,
         tour_title,
-        tour_list
+        tour_list,
+        cruise_image,
+        mobile_cruise_banner_image
       } = req.body;
-      // console.log("--fare_sets first-- ",fare_sets[0].fares);
+      // console.log("--fare_sets first-- ",req.body);
       if(fare_sets){
         fare_sets = JSON.parse(fare_sets)
       }else{
@@ -119,18 +121,30 @@ router.post(
         itinerary = []
       }
        // Constructing fareSets array
-      const cruiseImageBase64 = convertFileToBase64(
-        req.files["cruise_image"]?.[0]
-      );
+      let  cruiseImageBase64 = null;
+      if(cruise_image){
+        cruiseImageBase64 = cruise_image;
+      }else if(req.files["cruise_image"]?.[0]){
+        cruiseImageBase64 = convertFileToBase64(
+          req.files["cruise_image"]?.[0]
+        );
+      }
+      
       const salesBannerImageBase64 = convertFileToBase64(
         req.files["sales_banner_image"]?.[0]
       );
       const cruiseBannerImageBase64 = convertFileToBase64(
         req.files["cruise_banner_image"]?.[0]
       );
-      const mobileCruiseBannerImageBase64 = convertFileToBase64(
-        req.files["mobile_cruise_banner_image"]?.[0]
-      );
+
+      let  mobileCruiseBannerImageBase64 = null;
+      if(mobile_cruise_banner_image){
+        mobileCruiseBannerImageBase64 = mobile_cruise_banner_image;
+      }else if(req.files["mobile_cruise_banner_image"]?.[0]){
+        mobileCruiseBannerImageBase64 = convertFileToBase64(
+          req.files["mobile_cruise_banner_image"]?.[0]
+        );
+      }
 
       if(tour_list){
        tour_list = JSON.parse(tour_list)
