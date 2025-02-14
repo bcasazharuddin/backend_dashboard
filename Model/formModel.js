@@ -17,6 +17,10 @@ const fareSchema = new mongoose.Schema({
     priceSingle : {type: String, default: null},
 }
 );
+const contentSchema = new mongoose.Schema({
+    intro: { type: String, default: null }, 
+    video: { type: String, default: null }  
+});
 
 const fareSetSchema = new mongoose.Schema({
     fare_set_name: { type: String, default: null },
@@ -36,6 +40,68 @@ const itinerarySchema = new mongoose.Schema(
         description : { type : String , default : null},
     }
 );
+
+const imageSchema = new mongoose.Schema({
+    name: { type: String, default: null},
+    href: { type: String,default: null}
+});
+
+
+const accom_statsSchema = new mongoose.Schema({
+    type: { type: String , default: null},
+    min_occupancy: { type: Number,default: 1},
+    max_occupancy: { type: Number, default: 1},
+    min_size: { type: Number,default: 0},
+    max_size: { type: Number, default: 0}
+});
+const accommodationTypeSchema = new mongoose.Schema({
+    images: { type: [imageSchema], default: [] },
+    name: { type: String, default: null },
+    description: { type: String, default: null},
+    stats: { type: String, default: null },
+    grade_codes: { type: [String],default: []},
+    facilities: { type: [String], default: []},
+    accessible_cabin: { type: Boolean, default: false },
+    accom_stats: { type : accom_statsSchema, default : {} },
+    floorplans: { type : [imageSchema], default: [] }
+});
+
+const dining_optionsSchema = new mongoose.Schema({
+    images: { type: [imageSchema], default: [] },
+    attachments: { type: [String],  default: []},
+    name: {  type: String, default: null},
+    experience: { type: String, default: null },
+    food: { type: String, default: null },
+    description: { type: String, default: null}
+});
+
+const deckplansSchema = new mongoose.Schema({
+    images: { type: [imageSchema], default: [] },
+    name: { type: String, default: null },
+    description: { type: String, default: null},
+});
+
+const enrichment_typesSchema = new mongoose.Schema({
+    images: { type: [imageSchema], default: [] },
+    attachments: { type: [String],  default: [] },
+    name: { type: String, default: null },
+    description: { type: String, default: null },
+    types: { type: [String] ,default: [] }
+});
+
+
+const cruiseSchema = new mongoose.Schema({
+    name: { type: String, default: null },
+    ref: { type: String, default: null },
+    cruise: { type: String, default: null  }
+});
+
+const holidaysSchema = new mongoose.Schema({
+    name: { type: String, default: null },
+    holiday_ref: { type: String, default: null },
+    holiday: { type: String, default: null  }
+});
+
 const  formScehma = new mongoose.Schema({
     name : {
         type : String,
@@ -176,6 +242,87 @@ const  formScehma = new mongoose.Schema({
         default : null
     },
     tour : [tourSchema],
+    teaser:{
+        type : String,
+        default : null
+    },
+    introduction :{
+        type : String,
+        default : null
+    },
+    unique_feature:{
+        type : String,
+        default : null
+    },
+    gratuities : {
+        type : String,
+        default : null
+    },
+    video_url : {
+        type : String,
+        default : null
+    },
+    accommodation: { 
+        type: contentSchema,
+        default: {} 
+    },
+    dining: { 
+        type: contentSchema, 
+        default: {} 
+    },
+    enrichment : {
+        type : contentSchema,
+        default : {}
+    },
+    entertainment:{
+        type : contentSchema,
+        default : {}
+    },
+    health_and_fitness:{
+        type : contentSchema,
+        default : {}
+    },
+    kids_and_teens :{
+        type : contentSchema,
+        default : {}
+    },
+    accomodation_types : {
+        type :  [accommodationTypeSchema],
+        default: []
+    },
+    deckplans : {
+        type : [deckplansSchema],
+        default : []
+    },
+    dining_options :{
+        type : [dining_optionsSchema],
+        default : []
+    },
+    enrichment_types : {
+        type : [enrichment_typesSchema],
+        default : []
+    },
+    entertainment_types :{
+        type : [enrichment_typesSchema],
+        default : []
+    },
+    health_fitness_types :{
+        type : [enrichment_typesSchema],
+        default : []
+    },
+    useful_types : {
+        type : [enrichment_typesSchema],
+        default : []
+    },
+    cruises :{
+        type : [cruiseSchema],
+        default : []
+    },
+    holidays : {
+        type : [holidaysSchema],
+        default : [] 
+    }
+
 })
 
 

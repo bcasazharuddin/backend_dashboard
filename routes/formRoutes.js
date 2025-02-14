@@ -82,7 +82,27 @@ router.post(
         tour_title,
         tour_list,
         cruise_image,
-        mobile_cruise_banner_image
+        mobile_cruise_banner_image,
+        teaser,
+        introduction ,
+        unique_feature,
+        gratuities ,
+        video_url,
+        accommodation,
+        dining,
+        enrichment,
+        entertainment,
+        health_and_fitness,
+        kids_and_teens,
+        accomodation_types,
+        deckplans,
+        dining_options,
+        enrichment_types ,
+        entertainment_types ,
+        health_fitness_types,
+        useful_types,
+        cruises,
+        holidays
       } = req.body;
       // console.log("--fare_sets first-- ",req.body);
       if(fare_sets){
@@ -91,7 +111,96 @@ router.post(
         fare_sets = []
       }
 
-      // console.log("--fare_sets-- ",fare_sets[0].fares);
+      if(accommodation){
+        accommodation = JSON.parse(accommodation);
+      }else{
+        accommodation = {}
+      }
+
+      if(dining){
+        dining = JSON.parse(dining);
+      }else{
+        dining = {}
+      }
+
+      if(enrichment){
+        enrichment = JSON.parse(enrichment);
+      }else{
+        enrichment = {}
+      }
+      if(entertainment){
+        entertainment = JSON.parse(entertainment);
+      }else{
+        entertainment = {}
+      }
+
+      if(health_and_fitness){
+        health_and_fitness = JSON.parse(health_and_fitness);
+      }else{
+        health_and_fitness = {}
+      }
+      if(kids_and_teens){
+        kids_and_teens = JSON.parse(kids_and_teens);
+      }else{
+        kids_and_teens = {}
+      }
+      if(accomodation_types){
+        accomodation_types = JSON.parse(accomodation_types);
+      }else{
+        accomodation_types = []
+      }
+
+      if(deckplans){
+        deckplans = JSON.parse(deckplans);
+      }else{
+        deckplans = []
+      }
+
+      if(dining_options){
+        dining_options = JSON.parse(dining_options);
+      }else{
+        dining_options = []
+      }
+
+
+      if(enrichment_types){
+        enrichment_types = JSON.parse(enrichment_types);
+      }else{
+        enrichment_types = []
+      }
+
+      if(entertainment_types){
+        entertainment_types = JSON.parse(entertainment_types);
+      }else{
+        entertainment_types = []
+      }
+
+      if(health_fitness_types){
+        health_fitness_types = JSON.parse(health_fitness_types);
+      }else{
+        health_fitness_types = []
+      }
+
+      if(useful_types){
+        useful_types = JSON.parse(useful_types);
+      }else{
+        useful_types = []
+      }
+
+      if(cruises){
+        cruises = JSON.parse(cruises);
+      }else{
+        cruises = []
+      }
+    
+      if(holidays){
+        holidays = JSON.parse(holidays);
+      }else{
+        holidays = []
+      }
+      // console.log("-- accomodation_types---",holidays);
+      
+            // console.log("--fare_sets-- ",fare_sets[0].fares);
       // if(fare_sets && Array.isArray(fare_sets)){
       //   const fareSets = fare_sets.map(fareSet => {
       //     return {
@@ -198,12 +307,32 @@ router.post(
         options_amount : options_amount,
         options_select : options_select,
         tour_title : tour_title,
-        tour : tour_list
+        tour : tour_list,
+        teaser : teaser,
+        introduction :introduction,
+        unique_feature : unique_feature,
+        gratuities :gratuities,
+        video_url : video_url,
+        accommodation : accommodation,
+        dining : dining,
+        enrichment : enrichment,
+        entertainment : entertainment,
+        health_and_fitness : health_and_fitness,
+        kids_and_teens : kids_and_teens,
+        accomodation_types : accomodation_types,
+        deckplans : deckplans,
+        dining_options : dining_options,
+        enrichment_types :enrichment_types,
+        entertainment_types : entertainment_types,
+        health_fitness_types : health_fitness_types,
+        useful_types : useful_types,
+        cruises : cruises,
+        holidays : holidays
       });
    
-      console.log("-- formData---",formData);
+      // console.log("-- formData---",formData);
       const formResult = await formData.save();
-      console.log("---formResult--- ",formResult);
+      // console.log("---formResult--- ",formResult);
       if (formResult) {
         return res
           .status(200)
