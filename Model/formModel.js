@@ -66,9 +66,15 @@ const accommodationTypeSchema = new mongoose.Schema({
     floorplans: { type : [imageSchema], default: [] }
 });
 
+const attachmentsSchema = new mongoose.Schema({
+    name: { type: String, default: null },
+    href: { type: String, default: null},
+    thumbnail: { type: String, default: null },
+})
+
 const dining_optionsSchema = new mongoose.Schema({
     images: { type: [imageSchema], default: [] },
-    attachments: { type: [String],  default: []},
+    attachments: { type: [attachmentsSchema],  default: []},
     name: {  type: String, default: null},
     experience: { type: String, default: null },
     food: { type: String, default: null },
@@ -83,7 +89,7 @@ const deckplansSchema = new mongoose.Schema({
 
 const enrichment_typesSchema = new mongoose.Schema({
     images: { type: [imageSchema], default: [] },
-    attachments: { type: [String],  default: [] },
+    attachments: { type: [attachmentsSchema],  default: [] },
     name: { type: String, default: null },
     description: { type: String, default: null },
     types: { type: [String] ,default: [] }

@@ -24,13 +24,17 @@ const upload = multer({ storage: storage });
 //data:${file.mimetype};base64,${file.buffer.toString('base64')}
 // Convert file to Base64
 const convertFileToBase64 = (file) => {
-  if (!file || !file.path) return null;
+  if (!file || !file.path) {
+  //  fs.unlinkSync(file.path); 
+    return null;
+  }
   try {
     const fileData = fs.readFileSync(file.path);
     fs.unlinkSync(file.path); 
     console.log(`File ${file.path} removed after conversion.`);
     return fileData.toString("base64");
   } catch (error) {
+    fs.unlinkSync(file.path); 
     console.error("Error reading file:", error);
     return null;
   }
@@ -374,5 +378,201 @@ router.get('/getData',async(req,res)=>{
     }
 })
 
+router.patch('/updateData/:id', upload.fields([
+  { name: "cruise_image", maxCount: 1 },
+  { name: "sales_banner_image", maxCount: 1 },
+  { name: "cruise_banner_image", maxCount: 1 },
+  { name: "mobile_cruise_banner_image", maxCount: 1 },
+  ]),async(req,res)=>{
+
+    try {
+      
+      const {id} = req.params;
+      // console.log("-- id---",id);
+      let {
+        name,
+        reference,
+        operator,
+        ship,
+        region,
+        // type,
+        general_type,
+        general_Start,
+        general_end,
+        general_categories,
+        general_range,
+        summary,
+        sales_message,
+        text_banner,
+        overview,
+        whats_included,
+        extras,
+        itinerary,
+        cruise_image,
+        mobile_cruise_banner_image,
+        sales_banner_image,
+        cruise_banner_image
+      } = req.body;
+      console.log("--- namexxxx---",name);
+      if(!id){
+        res.status(400).json({ message: "Missing data", data: "" , success : false , status : 400 });
+      }
+      const getData = await formSchemaModel.find({ _id: id });
+      if(!getData ||  getData.length === 0){
+        res.status(400).json({ message: "Data not Found", data: '' , success : false ,  status : 400 });
+      }
+
+      if(itinerary){
+        itinerary = JSON.parse(itinerary)
+      }else{
+        itinerary = []
+      }
+      // console.log("---itinerary--- ",itinerary);
+
+      let  cruiseImageBase64 = null;
+      if(cruise_image){
+        cruiseImageBase64 = cruise_image;
+      }else if(req.files["cruise_image"]?.[0]){
+        cruiseImageBase64 = convertFileToBase64(
+          req.files["cruise_image"]?.[0]
+        );
+      }
+
+      let  salesBannerImageBase64 = null;
+      if(sales_banner_image){
+        salesBannerImageBase64 = sales_banner_image;
+      }else if(req.files["sales_banner_image"]?.[0]){
+        salesBannerImageBase64 = convertFileToBase64(
+          req.files["sales_banner_image"]?.[0]
+        );
+      }
+
+      let  cruiseBannerImageBase64 = null;
+      if(cruise_banner_image){
+        cruiseBannerImageBase64 = cruise_banner_image;
+      }else if(req.files["cruise_banner_image"]?.[0]){
+        cruiseBannerImageBase64 = convertFileToBase64(
+          req.files["cruise_banner_image"]?.[0]
+        );
+      }
+
+      let  mobileCruiseBannerImageBase64 = null;
+      if(mobile_cruise_banner_image){
+        mobileCruiseBannerImageBase64 = mobile_cruise_banner_image;
+      }else if(req.files["mobile_cruise_banner_image"]?.[0]){
+        mobileCruiseBannerImageBase64 = convertFileToBase64(
+          req.files["mobile_cruise_banner_image"]?.[0]
+        );
+      }
+      // console.log('getDataat',getData);
+      // const updateFormData =   await formSchemaModel.updateOne({_id: id},{$set : {
+      //   name: name,
+      //   reference: reference,
+      //   operator: operator,
+      //   ship: ship,
+      //   region: region,
+      //   type : type,
+      //   general_type: general_type,
+      //   general_Start: general_Start,
+      //   general_end: general_end,
+      //   general_categories: general_categories,
+      //   general_range: general_range,
+      //   cruise_image: cruiseImageBase64,
+      //   sales_banner_image: salesBannerImageBase64,
+      //   cruise_banner_image: cruiseBannerImageBase64,
+      //   mobile_cruise_banner_image: mobileCruiseBannerImageBase64,
+      //   summary  : summary,
+      //   sales_message : sales_message,
+      //   text_banner : text_banner,
+      //   overview : overview,
+      //   whats_included : whats_included,
+      //   extras : extras,
+      //   itinerary : itinerary,
+      // }})
+
+      const updateData = {};
+
+    if(name && name !== null && name !== undefined && name.trim() !== "") {
+      updateData.name = name;
+    }  
+    if (reference && reference !== null && reference !== undefined){
+      updateData.reference = reference;
+    } 
+    if (operator && operator !== null && operator !== undefined) {
+      updateData.operator = operator;
+    }  
+    if (ship && ship !== null && ship !== undefined){
+      updateData.ship = ship;
+    }
+    if (region && region !== null && region !== undefined){
+      updateData.region = region;
+    } 
+    if (general_type && general_type !== null && general_type !== undefined){
+      updateData.general_type = general_type;
+    }
+    if (general_Start && general_Start && general_Start !== null && general_Start !== undefined) {
+      updateData.general_Start = general_Start;
+    }  
+    if (general_end && general_end !== null && general_end !== undefined){
+      updateData.general_end = general_end;
+    } 
+    if ( general_categories && general_categories !== null && general_categories !== undefined) {
+      updateData.general_categories = general_categories;
+    }  
+    if (general_range && general_range !== null && general_range !== undefined) {
+      updateData.general_range = general_range;
+    } 
+    if ( summary && summary !== null && summary !== undefined) {
+      updateData.summary = summary;
+    }  
+    if (sales_message && sales_message !== null && sales_message !== undefined) {
+      updateData.sales_message = sales_message;
+    }
+    if (text_banner && text_banner !== null && text_banner !== undefined){
+      updateData.text_banner = text_banner;
+    } 
+    if ( overview && overview !== null && overview !== undefined){
+      updateData.overview = overview;
+    }
+    if (whats_included && whats_included !== null && whats_included !== undefined) {
+      updateData.whats_included = whats_included;
+    }  
+    if (extras && extras !== null && extras !== undefined){
+      updateData.extras = extras;
+    } 
+    if (itinerary && itinerary !== null && itinerary !== undefined) {
+      if (Array.isArray(itinerary) && itinerary.length > 0) {
+        updateData.itinerary = itinerary;
+      }
+    }  
+    if (cruise_image && cruise_image !== null && cruise_image !== undefined) {
+      updateData.cruise_image = cruiseImageBase64;
+    }  
+    if (mobile_cruise_banner_image && mobile_cruise_banner_image !== null && mobile_cruise_banner_image !== undefined) {
+      updateData.mobile_cruise_banner_image = mobileCruiseBannerImageBase64;
+    }  
+    if (sales_banner_image && sales_banner_image !== null && sales_banner_image !== undefined){
+      updateData.sales_banner_image = salesBannerImageBase64
+    } 
+    if (cruise_banner_image && cruise_banner_image !== null && cruise_banner_image !== undefined) {
+      updateData.cruise_banner_image = cruiseBannerImageBase64;
+    }  
+
+    // Perform the update
+    const updateFormData = await formSchemaModel.updateOne({ _id: id }, { $set: updateData });
+
+
+      // console.log("--- name-----",name);
+
+      if(updateFormData) {
+        return res.status(200).json({ message: "Succesfully update Data ", data: updateFormData , success : true , status : 200 });
+      } else {
+        res.status(500).json({ message: "Error in updating Data", data: "", success : false , status:400 });
+      }
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Internal Server Error", data: "" , success : false , status : 500});
+    }
+}) 
 
 module.exports = router;
