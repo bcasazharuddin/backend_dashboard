@@ -57,6 +57,7 @@ router.post(
         operator,
         ship,
         region,
+        cruise_nights,
         general_type,
         general_Start,
         general_end,
@@ -280,6 +281,7 @@ router.post(
         operator: operator,
         ship: ship,
         region: region,
+        cruise_nights : cruise_nights,
         general_type: general_type,
         general_Start: general_Start,
         general_end: general_end,
@@ -334,9 +336,9 @@ router.post(
         holidays : holidays
       });
    
-      // console.log("-- formData---",formData);
+      console.log("-- formData---",formData);
       const formResult = await formData.save();
-      // console.log("---formResult--- ",formResult);
+      console.log("---formResult--- ",formResult);
       if (formResult) {
         return res
           .status(200)

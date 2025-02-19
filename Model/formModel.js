@@ -38,6 +38,7 @@ const itinerarySchema = new mongoose.Schema(
         check_in_date: { type: String, default: null },
         check_out_date: { type: String, default: null },
         description : { type : String , default : null},
+        day : { type : String , default : null}
     }
 );
 
@@ -126,6 +127,10 @@ const  formScehma = new mongoose.Schema({
         default : null
     },
     region : {
+        type :  String,
+        default : null
+    },
+    cruise_nights : {
         type :  String,
         default : null
     },
