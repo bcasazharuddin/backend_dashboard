@@ -75,6 +75,8 @@ router.post(
         package_cruise_value4,
         package_cruise_value5,
         package_cruise_value6,
+        package_cruise_value_pp_inside,
+        package_cruise_value_solo_inside,
         fare_sets,
         itinerary,
         adjustment_type,
@@ -234,6 +236,7 @@ router.post(
       }else{
         itinerary = []
       }
+      console.log("--- itinerary---",itinerary);
        // Constructing fareSets array
       let  cruiseImageBase64 = null;
       if(cruise_image){
@@ -303,6 +306,8 @@ router.post(
         package_cruise_value4: package_cruise_value4,
         package_cruise_value5: package_cruise_value5,
         package_cruise_value6: package_cruise_value6,
+        package_cruise_value_pp_inside : package_cruise_value_pp_inside,
+        package_cruise_value_solo_inside : package_cruise_value_solo_inside,
         fare_sets: fare_sets,
         adjustment_type : adjustment_type,
         adjustment_amount : adjustment_amount,
@@ -336,9 +341,9 @@ router.post(
         holidays : holidays
       });
    
-      console.log("-- formData---",formData);
+      // console.log("-- formData---",formData);
       const formResult = await formData.save();
-      console.log("---formResult--- ",formResult);
+      // console.log("---formResult--- ",formResult);
       if (formResult) {
         return res
           .status(200)

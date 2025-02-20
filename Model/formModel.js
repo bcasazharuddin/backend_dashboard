@@ -218,6 +218,14 @@ const  formScehma = new mongoose.Schema({
         type : String,
         default : null
     },
+    package_cruise_value_pp_inside: {
+        type : String,
+        default : null
+    },
+    package_cruise_value_solo_inside: {
+        type : String,
+        default : null
+    },
     fare_sets: [fareSetSchema],
     adjustment_type : {
         type : String,
