@@ -636,26 +636,28 @@ router.get('/searchCruises', async (req, res) => {
         }else if(recommended == "Departure Date (Soonest First)"){
           SortQuery['itinerary.check_in_date.0'] = 1;
         }else if(recommended == "Departure Date (Furthest First)"){
-          SortQuery['itinerary.check_in_date.0'] = -1;
+          SortQuery['last_check_in_date'] = -1;
         }
       }
 
       console.log("-- recommend--",recommended);
+      // console.log("--- SortQuery---",SortQuery);
       let searchFilterData = [];
       if(recommended  && Object.keys(SortQuery).length > 0){
-        searchFilterData = await formSchemaModel.find(filter).sort(SortQuery);
-        // searchFilterData = await formSchemaModel.aggregate([
-        //   { $match: filter },
-        //   { 
-        //     $addFields: { 
-        //       last_check_in_date: { $arrayElemAt: ["$itinerary.check_in_date", -1] }
-        //     } 
-        //   },
-        //   { $sort: SortQuery }
-        // ]);
+        // searchFilterData = await formSchemaModel.find(filter).sort(SortQuery);
+        searchFilterData = await formSchemaModel.aggregate([
+          { $match: filter },
+          { 
+            $addFields: { 
+              last_check_in_date: { $arrayElemAt: ["$itinerary.check_in_date", 0] }
+            } 
+          },
+          { $sort: SortQuery }
+        ]);
       }else{
         searchFilterData = await formSchemaModel.find(filter);
       }
+      
       return res.status(200).json({ message: "fetch data Successfully", success : true, data: searchFilterData ,status:200 });
 
   } catch (error) {
