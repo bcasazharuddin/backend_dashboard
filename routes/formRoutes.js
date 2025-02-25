@@ -603,7 +603,7 @@ router.patch('/updateData/:id', upload.fields([
 router.get('/searchCruises', async (req, res) => {
   try {
       // console.log("---search Filter-----", req.query);
-      let { cruise_category, departure_month, destination, cruise_line, cruise_ship, ports, duration, price_range } = req.query;
+      let { cruise_category, departure_month, destination, cruise_line, cruise_ship, ports, duration, price_range, recommended } = req.query;
       // Constructing a dynamic filter object
       let filter = {};
       if (cruise_category) filter.general_categories = cruise_category;
@@ -616,7 +616,7 @@ router.get('/searchCruises', async (req, res) => {
       if (duration) {
         let durationValue = Number(duration); // Convert to number
         if (!isNaN(durationValue) && durationValue >= 0 && durationValue <= 50) {
-          filter.cruise_nights = { $gte: 0, $lte: durationValue }; 
+          filter.cruise_nights = { $gte: durationValue  }; 
         }
       }
 
@@ -627,7 +627,26 @@ router.get('/searchCruises', async (req, res) => {
         departure_month = moment(departure_month, "DD MMMM YYYY").unix();
         filter.itinerary = { $elemMatch: { check_in_date: { $gte: departure_month } } };
       }
-      const searchFilterData = await formSchemaModel.find(filter);
+      let SortQuery = {};
+      if(recommended){
+        if(recommended == "Price (Low to High)"){
+          SortQuery['package_cruise_value1'] = 1
+        }else if(recommended == "Price (High to Low)"){
+          SortQuery['package_cruise_value1'] = -1
+        }else if(recommended == "Departure Date (Soonest First)"){
+          SortQuery['itinerary.check_in_date'] = 1;
+        }else if(recommended == "Departure Date (Furthest First)"){
+          SortQuery['itinerary.check_in_date'] = -1;
+        }
+      }
+
+      console.log("-- recommend--",recommended);
+      let searchFilterData = [];
+      if(recommended  && Object.keys(SortQuery).length > 0){
+         searchFilterData = await formSchemaModel.find(filter).sort(SortQuery);
+      }else{
+        searchFilterData = await formSchemaModel.find(filter);
+      }
       return res.status(200).json({ message: "fetch data Successfully", success : true, data: searchFilterData ,status:200 });
 
   } catch (error) {
