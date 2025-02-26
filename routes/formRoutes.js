@@ -630,9 +630,9 @@ router.get('/searchCruises', async (req, res) => {
       let SortQuery = {};
       if(recommended){
         if(recommended == "Price (Low to High)"){
-          SortQuery['package_cruise_value1'] = -1
+          SortQuery['package_cruise_value1_numeric'] = 1
         }else if(recommended == "Price (High to Low)"){
-          SortQuery['package_cruise_value1'] = 1
+          SortQuery['package_cruise_value1_numeric'] = -1
         }else if(recommended == "Departure Date (Soonest First)"){
           SortQuery['itinerary.check_in_date.0'] = 1;
         }else if(recommended == "Departure Date (Furthest First)"){
@@ -643,21 +643,62 @@ router.get('/searchCruises', async (req, res) => {
       console.log("-- recommend--",recommended);
       // console.log("--- SortQuery---",SortQuery);
       let searchFilterData = [];
-      if(recommended  && Object.keys(SortQuery).length > 0){
-        // searchFilterData = await formSchemaModel.find(filter).sort(SortQuery);
+      // if(recommended  && Object.keys(SortQuery).length > 0){
+      //   // searchFilterData = await formSchemaModel.find(filter).sort(SortQuery);
+      //   searchFilterData = await formSchemaModel.aggregate([
+      //     { $match: filter },
+      //     { 
+      //       $addFields: { 
+      //         package_cruise_value1_numeric: {
+      //           $cond: {
+      //             if: { $or: [
+      //               { $eq: ["$package_cruise_value1", ""] }, 
+      //               { $eq: ["$package_cruise_value1", null] }
+      //             ] },
+      //             then: 0,
+      //             else: { $toDouble: "$package_cruise_value1" } 
+      //           }
+      //         },
+      //         last_check_in_date: { $arrayElemAt: ["$itinerary.check_in_date", 0] }
+      //       } 
+      //     },
+      //     { $sort: SortQuery }
+      //   ]);
+      // }else{
+      //   searchFilterData = await formSchemaModel.find(filter);
+      // }
+      if (recommended && Object.keys(SortQuery).length > 0) {
         searchFilterData = await formSchemaModel.aggregate([
-          { $match: filter },
-          { 
-            $addFields: { 
-              last_check_in_date: { $arrayElemAt: ["$itinerary.check_in_date", 0] }
-            } 
-          },
-          { $sort: SortQuery }
+            { $match: filter },
+            { 
+                $addFields: { 
+                    package_cruise_value1_numeric: {
+                        $cond: {
+                            if: { 
+                                $or: [
+                                    { $eq: ["$package_cruise_value1", ""] }, 
+                                    { $eq: ["$package_cruise_value1", null] },
+                                    { $eq: ["$package_cruise_value1", undefined] },
+                                ] 
+                            },
+                            then: 0,
+                            else: { $toDouble: "$package_cruise_value1" }   
+                        }
+                    },
+                    last_check_in_date: { $arrayElemAt: ["$itinerary.check_in_date", 0] }
+                } 
+            },
+            { 
+                $sort: { 
+                    package_cruise_value1_numeric: SortQuery['package_cruise_value1'] || 1,
+                    last_check_in_date: SortQuery['last_check_in_date'] || 1
+                } 
+            }
         ]);
-      }else{
+    } else {
         searchFilterData = await formSchemaModel.find(filter);
-      }
-      
+    }
+    
       return res.status(200).json({ message: "fetch data Successfully", success : true, data: searchFilterData ,status:200 });
 
   } catch (error) {
