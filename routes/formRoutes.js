@@ -630,9 +630,9 @@ router.get('/searchCruises', async (req, res) => {
       let SortQuery = {};
       if(recommended){
         if(recommended == "Price (Low to High)"){
-          SortQuery['package_cruise_value1'] = 1
-        }else if(recommended == "Price (High to Low)"){
           SortQuery['package_cruise_value1'] = -1
+        }else if(recommended == "Price (High to Low)"){
+          SortQuery['package_cruise_value1'] = 1
         }else if(recommended == "Departure Date (Soonest First)"){
           SortQuery['itinerary.check_in_date.0'] = 1;
         }else if(recommended == "Departure Date (Furthest First)"){
