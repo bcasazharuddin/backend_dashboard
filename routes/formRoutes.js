@@ -296,6 +296,12 @@ router.post(
       }else{
         tour_list = []
       }
+
+      if(general_categories){
+          general_categories = JSON.parse(general_categories)
+      }else{
+        general_categories = []
+      }
       const formData = new formSchemaModel({
         name: name,
         reference: reference,
@@ -606,7 +612,15 @@ router.get('/searchCruises', async (req, res) => {
       let { cruise_category, departure_month, destination, cruise_line, cruise_ship, ports, duration, price_range, recommended } = req.query;
       // Constructing a dynamic filter object
       let filter = {};
-      if (cruise_category) filter.general_categories = cruise_category;
+     
+      if (cruise_category ) {
+        cruise_category = JSON.parse(cruise_category)
+        if (Array.isArray(cruise_category) && cruise_category.length > 0) {
+          // filter.general_categories = cruise_category;
+          filter.general_categories = { $in: cruise_category };
+        }
+      }  
+      // console.log("---cruise_category last-- ",cruise_category);
       if (destination) filter.region = destination;
       if(cruise_line) filter.operator = cruise_line;
       if(cruise_ship) filter.ship = cruise_ship;
