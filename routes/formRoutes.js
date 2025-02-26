@@ -641,7 +641,7 @@ router.get('/searchCruises', async (req, res) => {
       }
 
       console.log("-- recommend--",recommended);
-      // console.log("--- SortQuery---",SortQuery);
+      //  console.log("--- SortQuery---",SortQuery);
       let searchFilterData = [];
       // if(recommended  && Object.keys(SortQuery).length > 0){
       //   // searchFilterData = await formSchemaModel.find(filter).sort(SortQuery);
@@ -689,15 +689,13 @@ router.get('/searchCruises', async (req, res) => {
                 } 
             },
             { 
-                $sort: { 
-                    package_cruise_value1_numeric: SortQuery['package_cruise_value1'] || 1,
-                    last_check_in_date: SortQuery['last_check_in_date'] || 1
-                } 
+              $sort: SortQuery 
             }
         ]);
-    } else {
-        searchFilterData = await formSchemaModel.find(filter);
-    }
+      } else {
+          searchFilterData = await formSchemaModel.find(filter);
+      }
+      // console.log("---searchFilterData--- ",searchFilterData);
     
       return res.status(200).json({ message: "fetch data Successfully", success : true, data: searchFilterData ,status:200 });
 
