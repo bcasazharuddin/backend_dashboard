@@ -30,6 +30,11 @@ const fareSetSchema = new mongoose.Schema({
 }
 );
 
+const itineraryImageSchema = new mongoose.Schema({
+    name: { type: String, default: null},
+    href: { type: String,default: null},
+    credit : {type: String,default: null}
+});
 
 const itinerarySchema = new mongoose.Schema(
     {
@@ -38,7 +43,8 @@ const itinerarySchema = new mongoose.Schema(
         check_in_date: { type: String, default: null },
         check_out_date: { type: String, default: null },
         description : { type : String , default : null},
-        day : { type : String , default : null}
+        day : { type : String , default : null},
+        images: { type: [itineraryImageSchema], default: [] },
     }
 );
 
