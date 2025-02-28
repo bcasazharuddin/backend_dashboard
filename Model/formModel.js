@@ -176,11 +176,11 @@ const  formScehma = new mongoose.Schema({
         type :  String,
         default : null
     },
-    // summary : {
-    //     type :  String,
-    //     default : null
-    // },
-    summary : [tourSchema],
+    summary : {
+        type :  String,
+        default : null
+    },
+    // summary : [tourSchema],
     sales_message : {
         type : String,
         default : null
@@ -193,7 +193,11 @@ const  formScehma = new mongoose.Schema({
         type : String,
         default : null
     },
-    whats_included : [tourSchema],
+    whats_included : {
+        type : String,
+        default : null
+    },
+    // whats_included : [tourSchema],
     extras : {
         type : String,
         default : null
