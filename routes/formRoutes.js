@@ -48,7 +48,9 @@ router.post(
     { name: "sales_banner_image", maxCount: 1 },
     { name: "cruise_banner_image", maxCount: 1 },
     { name: "mobile_cruise_banner_image", maxCount: 1 },
-    { name: "tour_list[]"} 
+    { name: "tour_list[]"},
+    { name: "whats_included[]"},
+    {name : "summary[]"} 
   ]),
   async (req, res) => {
     try {
@@ -296,6 +298,40 @@ router.post(
       }else{
         tour_list = []
       }
+
+      if(whats_included){
+        whats_included = JSON.parse(whats_included)
+        const whats_includedWithImages = whats_included.map((whats_included, index) => {
+         return {
+           name: whats_included.name,
+           icon: req.files['whats_included[]']?.[index]
+             ? convertFileToBase64(req.files['whats_included[]']?.[index])
+             : null,
+             
+         };
+       });
+       whats_included = whats_includedWithImages;
+       }else{
+        whats_included = []
+       }
+
+      //  console.log("---whats_included----",whats_included);
+
+      if(summary){
+        summary = JSON.parse(summary)
+        const summaryWithImages = summary.map((summary, index) => {
+         return {
+           name: summary.name,
+           icon: req.files['summary[]']?.[index]
+             ? convertFileToBase64(req.files['summary[]']?.[index])
+             : null,
+             
+         };
+       });
+       summary = summaryWithImages;
+       }else{
+        summary = []
+       }
 
       if(general_categories){
           general_categories = JSON.parse(general_categories)
