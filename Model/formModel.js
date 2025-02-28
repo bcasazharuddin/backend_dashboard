@@ -202,35 +202,67 @@ const  formScehma = new mongoose.Schema({
         type : String,
         default : null
     },
-    package_cruise_value1: {
+    insidePerPersonWas: {
         type : String,
         default : null
     },
-    package_cruise_value2: {
+    insidePerPersonNow: {
         type : String,
         default : null
     },
-    package_cruise_value3: {
+    outsidePerPersonWas: {
         type : String,
         default : null
     },
-    package_cruise_value4: {
+    outsidePerPersonNow: {
         type : String,
         default : null
     },
-    package_cruise_value5: {
+    balconyPerPersonWas: {
         type : String,
         default : null
     },
-    package_cruise_value6: {
+    balconyPerPersonNow: {
         type : String,
         default : null
     },
-    package_cruise_value_pp_inside: {
+    suitePerPersonWas: {
         type : String,
         default : null
     },
-    package_cruise_value_solo_inside: {
+    suitePerPersonNow: {
+        type : String,
+        default : null
+    },
+    insideSoloWas: {
+        type : String,
+        default : null
+    },
+    insideSoloNow: {
+        type : String,
+        default : null
+    },
+    outsideSoloWas: {
+        type : String,
+        default : null
+    },
+    outsideSoloNow: {
+        type : String,
+        default : null
+    },
+    balconySoloWas: {
+        type : String,
+        default : null
+    },
+    balconySoloNow: {
+        type : String,
+        default : null
+    },
+    SuiteSoloWas: {
+        type : String,
+        default : null
+    },
+    SuiteSoloNow: {
         type : String,
         default : null
     },
