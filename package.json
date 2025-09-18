@@ -1,10 +1,14 @@
+
 {
-  "name": "backend_dashboard",
+  "name": "@bcasazharuddin/backend_dashboard",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-     "test": "echo \"No tests yet\"",
+    "test": "echo \"No tests yet\"",
     "start": "nodemon app.js"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
   },
   "author": "",
   "license": "ISC",
@@ -18,3 +22,4 @@
     "nodemon": "^3.1.9"
   }
 }
+
