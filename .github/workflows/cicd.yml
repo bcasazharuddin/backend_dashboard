@@ -23,8 +23,22 @@ jobs:
       - name: Run tests
         run: npm test
 
+  security-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Gitleaks
+        run: sudo apt-get update && sudo apt-get install gitleaks -y
+
+      - name: Run Gitleaks
+        run: gitleaks detect source . -r gitleaks-report.json -f json
+
   publish-gpr:
-    needs: compile
+    needs: 
+      - compile
+      - security-check
     runs-on: ubuntu-latest
     permissions:
       contents: read
